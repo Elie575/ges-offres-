@@ -1,0 +1,71 @@
+/* Conteneur principal */
+.job-container {
+    padding: 40px 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+  }
+  
+  /* Titre principal */
+  .job-container h2 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 30px;
+  }
+  
+  .job-container h2 span {
+    color: #28a745;
+  }
+  
+  /* Carte des offres */
+  .job-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .job-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* En-tête de la carte */
+  .job-card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .job-card-header img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #28a745;
+  }
+  
+  /* Bouton Postuler */
+  .job-card-footer button {
+    background: none;
+    color: #28a745;
+    font-size: 1rem;
+    border: 1px solid #28a745;
+    border-radius: 5px;
+    padding: 10px;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+  
+  .job-card-footer button:hover {
+    background: #28a745;
+    color: white;
+  }
+  
+  /* Styles du modal */
+  .modal-content {
+    border-radius: 10px;
+  }
+  

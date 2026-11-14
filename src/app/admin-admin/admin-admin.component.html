@@ -1,0 +1,162 @@
+<body>
+  <div class="grid-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="menu-icon" (click)="toggleSidebar()">
+        <span class="material-icons-outlined">menu</span>
+      </div>
+      <div class="header-left"></div>
+      <div class="header-right"></div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside id="sidebar">
+      <div class="sidebar-title">
+        <div class="sidebar-brand">
+          <span class="material-icons-outlined">Admin</span>
+        </div>
+      </div>
+
+      <ul class="sidebar-list">
+        <li class="sidebar-list-item" (click)="showComponent('offres')">
+          <i class="fas fa-gift"></i> Offres encours
+        </li>
+        <li class="sidebar-list-item" (click)="showComponent('statistique')">
+          <i class="fas fa-chart-bar"></i> Statistiques
+        </li>
+        <li class="sidebar-list-item" (click)="showComponent('utilisateur')">
+          <i class="fa fa-user"></i> Utilisateur
+        </li>
+        <li class="sidebar-list-item">
+          <i class="fas fa-cogs"></i> Paramètres
+        </li>
+        <div class="deco">
+          <fa-icon [icon]="deconnexion"></fa-icon>
+          <button (click)="logout()">Déconnecter</button>
+        </div>
+      </ul>
+    </aside>
+
+    <!-- Section Statistiques -->
+
+    
+    <main class="main-container" *ngIf="currentComponent === 'statistique'">
+      
+      <div class="charts">
+        <div class="charts-card">
+          <p class="chart-title">Statistiques Offres</p>
+          <div id="bar-chart"></div>
+        </div>
+        <div class="charts-card">
+          <p class="chart-title">Évolution des Recrutements</p>
+          <div id="line-chart"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Section Table Utilisateurs -->
+    <main class="main-container" *ngIf="currentComponent === 'utilisateur'">
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+          <!-- Nom -->
+          <ng-container matColumnDef="titre">
+            <th mat-header-cell *matHeaderCellDef>Nom</th>
+            <td mat-cell *matCellDef="let element">{{ element.titre }}</td>
+          </ng-container>
+
+          <!-- Email -->
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+          </ng-container>
+
+          <!-- Rôle -->
+          <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef>Rôle</th>
+            <td mat-cell *matCellDef="let element">{{ element.exigences }}</td>
+          </ng-container>
+
+          <!-- Photo -->
+          <ng-container matColumnDef="photo">
+            <th mat-header-cell *matHeaderCellDef>Photo</th>
+            <td mat-cell *matCellDef="let element">{{ element.type_contrat }}</td>
+          </ng-container>
+
+          <!-- Contact -->
+          <ng-container matColumnDef="contact">
+            <th mat-header-cell *matHeaderCellDef>Contact</th>
+            <td mat-cell *matCellDef="let element">{{ element.localisation }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+    </main>
+
+    <!-- Section Table Offres -->
+    <main class="main-container" *ngIf="currentComponent === 'offres'">
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+          <!-- Colonne Titre -->
+          <ng-container matColumnDef="titre">
+            <th mat-header-cell *matHeaderCellDef>Titre</th>
+            <td mat-cell *matCellDef="let element">{{ element.titre }}</td>
+          </ng-container>
+
+          <!-- Colonne Description -->
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+          </ng-container>
+
+          <!-- Colonne Exigences -->
+          <ng-container matColumnDef="exigences">
+            <th mat-header-cell *matHeaderCellDef>Exigences</th>
+            <td mat-cell *matCellDef="let element">{{ element.exigences }}</td>
+          </ng-container>
+
+          <!-- Colonne Contrat -->
+          <ng-container matColumnDef="type_contrat">
+            <th mat-header-cell *matHeaderCellDef>Contrat</th>
+            <td mat-cell *matCellDef="let element">{{ element.type_contrat }}</td>
+          </ng-container>
+
+          <!-- Colonne Localisation -->
+          <ng-container matColumnDef="localisation">
+            <th mat-header-cell *matHeaderCellDef>Localisation</th>
+            <td mat-cell *matCellDef="let element">{{ element.localisation }}</td>
+          </ng-container>
+
+          <!-- Colonne Plage Salaire -->
+          <ng-container matColumnDef="plage_salaire">
+            <th mat-header-cell *matHeaderCellDef>Salaire</th>
+            <td mat-cell *matCellDef="let element">{{ element.plage_salaire }}</td>
+          </ng-container>
+
+          <!-- Colonne Date Création -->
+          <ng-container matColumnDef="cree_le">
+            <th mat-header-cell *matHeaderCellDef>Date création</th>
+            <td mat-cell *matCellDef="let element">{{ element.cree_le }}</td>
+          </ng-container>
+
+          <!-- Colonne Actions -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <button class ="valider" (click)="validerOffre(element)">Approuver</button>
+              <button class="rejeter" (click)="rejeterOffre(element)" style="margin-left: 8px;">Rejeter</button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+    </main>
+  </div>
+</body>

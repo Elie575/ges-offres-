@@ -1,0 +1,246 @@
+
+<mat-dialog-content class="login-dialog">
+  <div class="login-container">
+  <!-- Partie gauche -->
+  <div class="login-brand">
+      <div class="brand-overlay"></div>
+      <div class="brand-content">
+        <div class="brand-logo">
+        <img src="assets/bag.png" alt="Online">
+        </div>
+        <h1>HI-KANDRA</h1>
+        <p>
+          Trouvez votre emploi idéal et connectez-vous
+          à votre espace professionnel.
+        </p>
+        <div class="brand-features">
+          <div>
+            <span class="feature-icon">✓</span>
+            <span>Consultez les offres d'emploi</span>
+          </div>
+
+          <div>
+            <span class="feature-icon">✓</span>
+            <span>Postulez facilement</span>
+          </div>
+
+          <div>
+            <span class="feature-icon">✓</span>
+            <span>Gérez votre profil</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Partie droite -->
+    <div class="login-form-section">
+
+      <div class="login-header">
+        <span class="welcome">Bienvenue 👋</span>
+
+        <h2>Connexion</h2>
+
+        <p>
+          Connectez-vous à votre compte pour continuer.
+        </p>
+      </div>
+
+
+      <form
+        class="profile-form"
+        (ngSubmit)="connexion()"
+        enctype="multipart/form-data"
+      >
+
+        <!-- Photo -->
+      
+
+
+        <!-- Email -->
+        <div class="form-group">
+
+          <label for="email">
+            Adresse email
+          </label>
+
+          <div class="input-container">
+
+            <span class="input-icon">✉</span>
+
+            <input
+              id="email"
+              type="email"
+              [(ngModel)]="user.email"
+              name="email"
+              placeholder="Entrez votre email "
+              autocomplete="email"
+              required
+            />
+
+          </div>
+
+        </div>
+
+
+        <!-- Mot de passe -->
+        <div class="form-group">
+
+          <div class="label-row">
+
+            <label for="code">
+              Mot de passe
+            </label>
+
+            <a href="#" class="forgot-password">
+              Mot de passe oublié ?
+            </a>
+
+          </div>
+
+          <div class="input-container">
+
+            <span class="input-icon">🔒</span>
+
+            <input
+              id="code"
+              [type]="hidePassword ? 'password' : 'text'"
+              [(ngModel)]="user.code"
+              name="code"
+              placeholder="Entrez votre mot de passe "
+              autocomplete="current-password"
+              required
+            />
+
+<button type="button" class="show-password" 
+(click)="togglePassword()" [title]="hidePassword ? 'Afficher le mot de passe' : 'Masquer le mot de passe'" 
+[attr.aria-label]="hidePassword ? 'Afficher le mot de passe' : 'Masquer le mot de passe'" >
+ {{ hidePassword ? '👁' : '🙈' }} </button>
+            
+
+          </div>
+
+        </div>
+
+
+        <!-- Message erreur -->
+        <div
+          class="error-message"
+          *ngIf="errorMessage"
+        >
+          <span>⚠</span>
+          {{ errorMessage }}
+        </div>
+
+
+      
+<!-- =========================================
+     BOUTON CONNEXION AVEC LOADING
+========================================= -->
+
+<button
+  class="login-button"
+  type="submit"
+  [disabled]="loading"
+  [class.loading]="loading"
+  [class.success]="loginSuccess"
+>
+
+  <!-- ================================
+       ÉTAT NORMAL
+  ================================= -->
+  <ng-container *ngIf="!loading">
+
+    <span class="button-text">
+      Connexion
+    </span>
+
+    <span class="arrow">
+      →
+    </span>
+
+  </ng-container>
+
+
+  <!-- ================================
+       ÉTAT LOADING
+  ================================= -->
+  <ng-container *ngIf="loading && !loginSuccess">
+
+    <span class="loading-content">
+
+      <span class="spinner"></span>
+
+      <span class="loading-text">
+        Connexion...
+      </span>
+
+    </span>
+
+  </ng-container>
+
+
+  <!-- ================================
+       ÉTAT SUCCÈS
+  ================================= -->
+  <ng-container *ngIf="loading && loginSuccess">
+
+    <span class="success-content">
+
+      <span class="success-check">
+        ✓
+      </span>
+
+      <span>
+        Connexion réussie
+      </span>
+
+     </span>
+    </ng-container>
+    </button>
+
+        <!-- Séparateur -->
+        <div class="divider">
+          <span>OU</span>
+        </div>
+
+
+        <!-- Google -->
+        <button
+          type="button"
+          class="google-button"
+          onclick="window.location.href='https://accounts.google.com'"
+        >
+
+          <img
+            src="assets/google.png"
+            alt="Google"
+          />
+
+          <span>Continuer avec Google</span>
+
+        </button>
+
+
+        <!-- Inscription -->:
+        <div class="register-link">
+
+          <span>Vous n'avez pas encore de compte ?</span>
+          <button
+          type="button"
+          (click)=" openSignupModal()"
+        >
+          S'inscrire
+          <mat-icon></mat-icon>
+        </button>
+            
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</mat-dialog-content>
+

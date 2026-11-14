@@ -1,0 +1,48 @@
+<body>
+  <div class="discussion-container">
+  <!-- Sidebar avec liste des candidats -->
+  <div class="discussion-sidebar">
+    <h3 style="color: #2e5f92;">Discussions</h3>
+    <i class="fas fa-search" ></i>
+    <app-search-app></app-search-app>
+    <ul class="discussion-list">
+      <li *ngFor="let candidate of candidates" (click)="selectCandidate(candidate)">
+        <div class="Pdp">
+          <img [src]="candidate.photo" alt="Photo de {{ candidate.name }}" />
+          {{ candidate.name }}
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Zone principale de discussion -->
+  <div class="discussion-main">
+    <!-- Barre de recherche -->
+    <div class="messages-header">
+    <a routerLink="/Recruteur" routerLinkActive="active" ariaCurrentWhenActive="page">
+    <i class="fas fa-power-off" style="color: rgb(246, 246, 247); background-color: rgb(161, 77, 77);font-size:260%;border-radius: 40%;" ></i></a>
+    </div>
+
+    <!-- Messages -->
+    <div class="messages">
+      <div *ngIf="selectedCandidate; else noCandidateSelected">
+        <div *ngFor="let message of selectedCandidate.messages" class="message" [ngClass]="{'recruiter': message.sender === 'recruiter', 'candidate': message.sender === 'candidate'}">
+          <p>{{ message.content }}</p>
+          <span class="timestamp">{{ message.timestamp }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Zone de saisie -->
+    <div class="message-input-container" *ngIf="selectedCandidate">
+      <textarea [(ngModel)]="newMessage" class="message-input" placeholder="Écrire un message..."></textarea>
+      <button class="send-button" (click)="sendMessage()">Envoyer</button>
+    </div>
+
+    <!-- Message par défaut -->
+    <ng-template #noCandidateSelected>
+      <p>Sélectionnez un candidat pour commencer la discussion.</p>
+    </ng-template>
+  </div>
+</div>
+</body>

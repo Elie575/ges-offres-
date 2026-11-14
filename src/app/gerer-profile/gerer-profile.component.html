@@ -1,0 +1,33 @@
+<body>
+<div class="profile-container">
+    <!-- Section de la photo de profil -->
+    <div class="profile-picture">
+      <img [src]="user.photoUrl || 'assets/default-profile.png'" style="background-color: rgb(249, 252, 253);"
+           alt="" 
+           (click)="triggerFileInput()" />
+      <input type="file" #fileInput accept="image" (change)="onPhotoChange($event)" hidden />
+    </div>
+  
+    <!-- Formulaire pour les autres informations -->
+    <form class="profile-form">
+      <div class="form-group">
+        <label for="name">Nom :</label>
+        <input id="name" type="text" [(ngModel)]="user.name" name="name" placeholder="Entrez votre nom" />
+      </div>
+  
+      <div class="form-group">
+        <label for="email">Email :</label>
+        <input id="email" type="email" [(ngModel)]="user.email" name="email" placeholder="Entrez votre email" />
+      </div>
+  
+      <div class="form-group">
+        <label for="code">Code :</label>
+        <input id="code" type="text" [(ngModel)]="user.code" name="code" placeholder="Entrez votre code" />
+      </div>
+  
+      <button type="button" (click)="saveProfile()">Enregistrer</button>
+    </form>
+  </div>
+</body>
+  
+  

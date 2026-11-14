@@ -1,1 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Fenêtre de connexion Angular Material */
+
+.cdk-overlay-container {
+    z-index: 10000 !important;
+  }
+  
+  .login-dialog-panel .mat-mdc-dialog-surface {
+    padding: 0 !important;
+    border-radius: 22px !important;
+    background: white !important;
+    overflow: hidden !important;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.22);
+  }
+  
+  .login-dialog-panel .mat-mdc-dialog-content {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-height: 90vh !important;
+  }
+  
+  /* Responsive */
+  
+  @media (max-width: 650px) {
+    .login-dialog-panel .mat-mdc-dialog-surface {
+      border-radius: 15px !important;
+    }
+  
+    .login-dialog-panel .mat-mdc-dialog-content {
+      max-height: 92vh !important;
+    }
+  }
+  

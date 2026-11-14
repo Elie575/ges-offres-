@@ -1,0 +1,371 @@
+
+<div class="nav"><app-navbar></app-navbar></div>
+<main class="home-page">
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <span class="hero-badge">
+        <i class="fas fa-sparkles"></i>
+        Plateforme de recrutement H-KANDRA
+      </span>
+
+      
+     
+<h1 class="hero-title">
+  Votre prochain emploi
+  <span class="breathing-text">commence 
+    <span class="typing-effect" aria-label="commence ici">
+    </span><br>
+  </span>
+</h1>
+
+
+      <p>
+        Découvrez des offres d'emploi adaptées à votre profil.
+        Explorez les opportunités et construisez votre
+        avenir professionnel.
+      </p>
+
+      <div class="search-box">
+        <div class="search-field">
+          <i class="fas fa-magnifying-glass"></i>
+          <input
+            type="search"
+            placeholder="Métier, entreprise, compétence..."
+            [(ngModel)]="recherche"
+            (keyup.enter)="rechercherOffres()"
+          />
+        </div>
+
+        <button
+          type="button"
+          (click)="rechercherOffres()">
+          <i class="fas fa-search"></i>
+          Rechercher
+        </button>
+      </div>
+
+      <div class="hero-trust">
+        <span>
+          <i class="fas fa-circle-check"></i>
+          Consultation gratuite
+        </span>
+        <span>
+          <i class="fas fa-shield-halved"></i>
+          Candidature sécurisée
+        </span>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <img
+        src="assets/offer-3.jpg"
+        alt="Recherche d'emploi"
+      />
+    </div>
+  </section>
+
+  <!-- PARTENAIRES -->
+  <section class="partners">
+    <p>Explorez les opportunités de votre secteur</p>
+
+    <div class="partners-list">
+      <span><i class="fas fa-laptop-code"></i> Informatique</span>
+      <span><i class="fas fa-building"></i> Entreprises</span>
+      <span><i class="fas fa-truck"></i> Logistique</span>
+      <span><i class="fas fa-helmet-safety"></i> BTP</span>
+    </div>
+  </section>
+
+  <!-- OFFRES POPULAIRES -->
+  <section class="jobs-section" id="offres">
+    <div class="section-container">
+
+      <div class="section-heading">
+        <div>
+          <span class="section-tag">
+            <i class="fas fa-fire"></i>
+            Opportunités
+          </span>
+
+          <h2>
+            Les meilleures
+            <span>offres d'emploi</span>
+          </h2>
+
+          <p>
+            Consultez les offres disponibles et trouvez
+            le poste qui vous correspond.
+          </p>
+        </div>
+
+        <span class="jobs-count">
+          {{ offresFiltrees.length }} offre(s)
+        </span>
+      </div>
+
+      <!-- FILTRES -->
+      <div class="filters">
+        <button
+          type="button"
+          *ngFor="let filtre of filtres"
+          [class.selected]="categorieActive === filtre"
+          (click)="filtrerCategorie(filtre)">
+          {{ filtre }}
+        </button>
+      </div>
+
+      <!-- GRILLE DES OFFRES -->
+      <div class="jobs-grid">
+
+        <article
+          class="job-card"
+          *ngFor="let offre of offresFiltrees">
+
+          <div class="job-card-top">
+            <div class="company-icon">
+              <i [class]="offre.icone"></i>
+            </div>
+
+            <span class="job-type">
+              {{ offre.contrat }}
+            </span>
+          </div>
+
+          <div class="job-content">
+            <h3>{{ offre.titre }}</h3>
+
+            <p class="company-name">
+              <i class="fas fa-building"></i>
+              {{ offre.entreprise }}
+            </p>
+
+            <p class="job-description">
+              {{ offre.description }}
+            </p>
+
+            <div class="job-meta">
+              <span>
+                <i class="fas fa-location-dot"></i>
+                {{ offre.localisation }}
+              </span>
+
+              <span>
+                <i class="fas fa-layer-group"></i>
+                {{ offre.categorie }}
+              </span>
+            </div>
+          </div>
+
+          <div class="job-card-footer">
+            <span class="job-salary">
+              <i class="fas fa-money-bill-wave"></i>
+              {{ offre.salaire }}
+            </span>
+
+            <button
+              type="button"
+              class="apply-btn"
+              (click)="postuler(offre)">
+              Postuler
+              <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+
+        </article>
+
+      </div>
+
+      <div
+        class="empty-state"
+        *ngIf="offresFiltrees.length === 0">
+        <i class="fas fa-magnifying-glass"></i>
+        <h3>Aucune offre trouvée</h3>
+        <p>Essayez une autre recherche ou catégorie.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- QUATRE ETAPES -->
+  <section class="steps-section" id="apropos">
+    <div class="section-container">
+
+      <div class="steps-heading">
+        <span class="section-tag">Comment ça marche ?</span>
+        <h2>
+          Trouvez un emploi en
+          <span>4 étapes simples</span>
+        </h2>
+        <p>
+          Votre parcours professionnel commence
+          en quelques étapes.
+        </p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-icon">
+            <i class="fas fa-user-plus"></i>
+          </div>
+          <span class="step-number">01</span>
+          <h3>Créer un compte</h3>
+          <p>
+            Inscrivez-vous gratuitement pour accéder
+            aux fonctionnalités de candidature.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-icon">
+            <i class="fas fa-magnifying-glass"></i>
+          </div>
+          <span class="step-number">02</span>
+          <h3>Rechercher un emploi</h3>
+          <p>
+            Explorez les offres adaptées à vos
+            compétences et à votre expérience.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-icon">
+            <i class="fas fa-file-arrow-up"></i>
+          </div>
+          <span class="step-number">03</span>
+          <h3>Ajouter votre CV</h3>
+          <p>
+            Présentez votre parcours professionnel
+            aux recruteurs.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-icon">
+            <i class="fas fa-briefcase"></i>
+          </div>
+          <span class="step-number">04</span>
+          <h3>Décrocher un emploi</h3>
+          <p>
+            Postulez aux opportunités et suivez
+            l'évolution de vos candidatures.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="contact">
+    <div class="section-container footer-grid">
+
+      <div class="footer-about">
+        <h2>H-<span>KANDRA</span></h2>
+        <p>
+          Votre plateforme de recherche d'emploi.
+          Découvrez les opportunités et construisez
+          votre avenir professionnel.
+        </p>
+      </div>
+
+      <div class="footer-column">
+        <h3>Navigation</h3>
+        <a href="#home">Accueil</a>
+        <a href="#offres">Offres d'emploi</a>
+        <a href="#apropos">À propos</a>
+      </div>
+
+      <div class="footer-column">
+        <h3>Contact</h3>
+        <p>
+          <i class="fas fa-phone"></i>
+          +261 34 83 738 54
+        </p>
+        <p>
+          <i class="fas fa-location-dot"></i>
+          Fianarantsoa, Madagascar
+        </p>
+      </div>
+
+      <div class="footer-column">
+        <h3>Suivez-nous</h3>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 H-KANDRA — Projection Web Design
+      Elie Rahajaniaina.
+    </div>
+  </footer>
+
+</main>
+
+<!-- MODAL AUTHENTIFICATION -->
+<div
+  class="auth-overlay"
+  *ngIf="afficherAuth"
+  (click)="fermerAuth()">
+
+  <div
+    class="auth-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="auth-title"
+    (click)="$event.stopPropagation()">
+
+    <button
+      type="button"
+      class="auth-close"
+      aria-label="Fermer"
+      (click)="fermerAuth()">
+      <i class="fas fa-xmark"></i>
+    </button>
+
+    <div class="auth-icon">
+      <i class="fas fa-lock"></i>
+    </div>
+
+    <h2 id="auth-title">Vous souhaitez postuler ?</h2>
+
+    <p>
+      Connectez-vous ou créez gratuitement
+      votre compte candidat pour continuer.
+    </p>
+
+    <div class="auth-offer" *ngIf="offreSelectionnee">
+      <i class="fas fa-briefcase"></i>
+      <span>{{ offreSelectionnee.titre }}</span>
+    </div>
+
+    <button
+      type="button"
+      class="auth-primary"
+      (click)="ouvrirInscription()">
+      <i class="fas fa-user-plus"></i>
+      Créer un compte
+    </button>
+
+    <button
+      type="button"
+      class="auth-secondary"
+      (click)="ouvrirConnexion()">
+      <i class="fas fa-right-to-bracket"></i>
+      Se connecter
+    </button>
+
+  </div>
+</div>

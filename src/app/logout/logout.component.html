@@ -1,0 +1,362 @@
+<head>
+  <meta charset="utf-8">
+  <title>Page d'inscription</title>
+  
+  <!-- Liens vers les icônes Material -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+</head>
+
+<mat-dialog-content class="register-dialog-content">
+  <div class="register-container">
+
+    <!-- =========================================
+         EN-TÊTE
+    ========================================== -->
+    <div class="register-header">
+      <div class="header-icon">
+        <mat-icon>person_add</mat-icon>
+      </div>
+      <div>
+        <span class="header-label">Online.MG</span>
+        <h2>Créer votre compte</h2>
+        <p>
+          Rejoignez notre plateforme et accédez à toutes
+          les fonctionnalités de Online.MG.
+        </p>
+      </div>
+    </div>
+
+    <!-- =========================================
+         FORMULAIRE
+    ========================================== -->
+    <form
+      class="profile-form"
+      (ngSubmit)="ajouter()"
+      #registerForm="ngForm"
+      enctype="multipart/form-data"
+      novalidate
+    >
+
+      <!-- =========================================
+           PHOTO + INFORMATIONS
+      ========================================== -->
+      <section class="photo-section">
+
+        <!-- PHOTO -->
+        <div
+          class="profile-picture"
+          (click)="triggerFileInput()"
+          title="Ajouter une photo"
+        >
+          <img
+            [src]="user.photoUrl || 'assets/utilisateur.png'"
+            alt="Photo de profil"
+          />
+          <div class="photo-overlay">
+            <mat-icon>photo_camera</mat-icon>
+          </div>
+          <div class="photo-badge">
+            <mat-icon>add</mat-icon>
+          </div>
+        </div>
+
+        <!-- INFORMATIONS -->
+        <div class="photo-information">
+          <h3>{{ user.nom || '' }}</h3>
+          <div class="user-email">
+            <mat-icon>email</mat-icon>
+            <span>{{ user.email || '' }}</span>
+          </div>
+          <span class="user-status"></span>
+          <p>Ajoutez une photo pour personnaliser votre profil.</p>
+          <button
+            type="button"
+            class="photo-button"
+            (click)="triggerFileInput()"
+          >
+            <mat-icon>photo_camera</mat-icon>
+            Choisir une photo
+          </button>
+          <input
+            type="file"
+            #fileInput
+            accept="image/png,image/jpeg,image/jpg,image/webp"
+            (change)="onPhotoChange($event)"
+            hidden
+          />
+          <small>JPG, PNG ou WEBP • 5 Mo maximum</small>
+        </div>
+      </section>
+
+      <!-- =========================================
+           INFORMATIONS PERSONNELLES
+      ========================================== -->
+      <div class="form-grid">
+
+        <!-- NOM -->
+        <div class="form-group">
+          <label for="name">
+            Nom <span>*</span>
+          </label>
+          <div
+            class="input-wrapper"
+            [class.input-error]="nom.invalid && nom.touched"
+          >
+            <mat-icon>person</mat-icon>
+            <input
+              id="name"
+              type="text"
+              [(ngModel)]="user.nom"
+              name="nom"
+              #nom="ngModel"
+              placeholder="Insérer ici votre nom"
+              required
+              autocomplete="family-name"
+            />
+          </div>
+          <small
+            class="field-error"
+            *ngIf="nom.invalid && nom.touched"
+          >
+            Le nom est obligatoire.
+          </small>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="form-group">
+          <label for="email">
+            Adresse e-mail <span>*</span>
+          </label>
+          <div
+            class="input-wrapper"
+            [class.input-error]="email.invalid && email.touched"
+          >
+            <mat-icon>email</mat-icon>
+            <input
+              id="email"
+              type="email"
+              [(ngModel)]="user.email"
+              name="email"
+              #email="ngModel"
+              placeholder="Entrez votre e-mail"
+              required
+              email
+              autocomplete="email"
+            />
+          </div>
+          <small
+            class="field-error"
+            *ngIf="email.invalid && email.touched"
+          >
+            Entrez une adresse e-mail valide.
+          </small>
+        </div>
+
+        <!-- MOT DE PASSE -->
+        <div class="form-group">
+          <label for="code">
+            Mot de passe <span>*</span>
+          </label>
+          <div
+            class="input-wrapper"
+            [class.input-error]="code.invalid && code.touched"
+          >
+            <mat-icon>lock</mat-icon>
+            <input
+              id="code"
+              [type]="hidePassword ? 'password' : 'text'"
+              [(ngModel)]="user.code"
+              name="code"
+              #code="ngModel"
+              placeholder="Créer un mot de passe"
+              required
+              minlength="6"
+              autocomplete="new-password"
+            />
+            <button
+              type="button"
+              class="show-password"
+              (click)="togglePassword()"
+              [title]="hidePassword ? 'Afficher le mot de passe' : 'Masquer le mot de passe'"
+              [attr.aria-label]="hidePassword ? 'Afficher le mot de passe' : 'Masquer le mot de passe'"
+            >
+              {{ hidePassword ? '👁' : '🙈' }}
+            </button>
+          </div>
+          <small
+            class="field-error"
+            *ngIf="code.invalid && code.touched"
+          >
+            Minimum 6 caractères.
+          </small>
+        </div>
+
+        <!-- CONTACT -->
+        <div class="form-group">
+          <label for="contact">Numéro de téléphone</label>
+          <div class="input-wrapper">
+            <mat-icon>phone</mat-icon>
+            <input
+              id="contact"
+              type="tel"
+              [(ngModel)]="user.contact"
+              name="contact"
+              placeholder="Votre numéro de téléphone"
+              autocomplete="tel"
+            />
+          </div>
+        </div>
+
+        <!-- RÔLE -->
+        <div class="form-group full-width">
+          <label for="role">
+            Vous êtes <span>*</span>
+          </label>
+          <div class="role-grid">
+            <!-- CANDIDAT -->
+            <label
+              class="role-card"
+              [class.selected]="user.role === 'candidat'"
+            >
+              <input
+                type="radio"
+                [(ngModel)]="user.role"
+                name="role"
+                value="candidat"
+                required
+              />
+              <div class="role-icon">
+                <mat-icon>person_search</mat-icon>
+              </div>
+              <div class="role-content">
+                <strong>Candidat</strong>
+                <span>Je recherche un emploi</span>
+              </div>
+              <div class="role-check">
+                <mat-icon>check</mat-icon>
+              </div>
+            </label>
+
+            <!-- RECRUTEUR -->
+            <label
+              class="role-card"
+              [class.selected]="user.role === 'recruteur'"
+            >
+              <input
+                type="radio"
+                [(ngModel)]="user.role"
+                name="role"
+                value="recruteur"
+                required
+              />
+              <div class="role-icon">
+                <mat-icon>business_center</mat-icon>
+              </div>
+              <div class="role-content">
+                <strong>Recruteur</strong>
+                <span>Je souhaite recruter</span>
+              </div>
+              <div class="role-check">
+                <mat-icon>check</mat-icon>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- MESSAGE D'ERREUR -->
+      <div
+        class="error-message"
+        *ngIf="errorMessage"
+      >
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="form-actions">
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="fermer()"
+        >
+          <mat-icon>close</mat-icon>
+          Annuler
+        </button>
+      
+        
+        <button
+          type="button"
+          class="register-button"
+          (click)="ajouter()"
+          [disabled]="loading || profileCreationSuccess"
+        >
+         <!-- ============================= -->
+          <!-- BOUTON NORMAL -->
+          <!-- ============================= -->
+        
+          <ng-container
+            *ngIf="!profileCreationSuccess">
+        
+            <mat-icon>
+              add
+            </mat-icon>
+        
+            <span>
+              S'inscrire
+            </span>
+        
+          </ng-container>
+        
+          <!-- ============================= -->
+          <!-- INSCRIPTION EN COURS -->
+          <!-- ============================= -->
+        
+          <ng-container *ngIf="loading">
+        
+            <mat-spinner
+              diameter="30">
+            </mat-spinner>
+        
+            <span>
+              Inscription en cours...
+            </span>
+        
+          </ng-container>
+        
+          <!-- ============================= -->
+          <!-- INSCRIPTION TERMINÉE -->
+          <!-- ============================= -->
+        
+        <ng-container
+            *ngIf="profileCreationSuccess && !loading" class="button.success">
+        <span class="success-content">
+            <span class="success-check">
+              ✓<mat-icon>
+                check_circle
+              </mat-icon>
+            
+            <span>
+              Inscription terminée !
+            </span>
+          </span>
+          </span>
+          </ng-container>
+        
+        </button>
+      </div>
+
+      <!-- LIEN CONNEXION -->
+      <div class="login-link">
+        <span>Vous avez déjà un compte ?</span>
+        <button
+          type="button"
+          (click)="openLoginModal()">
+          Se connecter
+        <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>

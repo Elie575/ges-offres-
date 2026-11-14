@@ -1,0 +1,148 @@
+
+<header class="site-header">
+  <nav class="navbar">
+
+    <!-- Logo -->
+    <a class="brand" href="/" aria-label="H-KANDRA Accueil">
+      <div class="brand-icon">
+        <i class="fas fa-briefcase"></i>
+      </div>
+
+      <div class="brand-text">
+        <h1>H-<span>KANDRA</span></h1>
+        <small>{{ languageService.traduire(
+          "Votre avenir commence ici",
+          'Your future is beginning here '
+        ) }}</small>
+      </div>
+    </a>
+
+    <!-- Navigation ordinateur -->
+    <div class="nav-links">
+      <a href="/" class="nav-link ">
+        <i class="fas fa-house"></i>
+        <span>
+          {{ languageService.traduire('Accueil', 'Home') }}
+        </span>
+      </a>
+
+      <a href="#offres"class="nav-link "> <i class="fas fa-briefcase"></i> 
+       <span> {{ languageService.traduire(
+          "Offres d'emploi",
+          'Job offers'
+        ) }}</span>
+      </a>
+      
+
+      <a href="#apropos" class="nav-link">
+        <i class="fas fa-circle-info"></i>
+        <span> {{ languageService.traduire(
+          "A propos",
+          'About'
+        ) }}</span>
+      </a>
+
+      <a href="#contact" class="nav-link ">
+        <i class="fas fa-envelope"></i>
+        <span>{{ languageService.traduire(
+          "Contact",
+          'Contact Us'
+        ) }}</span>
+      </a>
+    </div>
+    <div class="language-selector">
+      <i class="fas fa-globe"></i>
+    
+      <select
+        [value]="langue"
+        (change)="changerLangue($event)"
+        aria-label="Choisir la langue">
+    
+        <option value="fr">Fr</option>
+        <option value="en">En</option>
+    
+      </select>
+    </div>
+    <!-- Authentification -->
+    <div class="navbar-buttons">
+      <button
+        type="button"
+        class="btn-login"
+        (click)="openLoginModal()">
+        <i class="fas fa-right-to-bracket"></i>
+        <span>  {{ languageService.traduire(
+          'Se connecter',
+          'Sign in'
+        ) }}
+      </span>
+      </button>
+
+      <button
+        type="button"
+        class="btn-signup"
+        (click)="openSignupModal()">
+        <i class="fas fa-user-plus"></i>
+        
+        <span>{{ languageService.traduire(
+          "S'inscrire",
+          'Sign up'
+        ) }}</span>
+        <i class="fas fa-arrow-right arrow-icon"></i>
+      </button>
+    </div>
+
+    <!-- Menu mobile -->
+    <button
+      type="button"
+      class="menu-toggle"
+      aria-label="Ouvrir ou fermer le menu"
+      aria-controls="mobile-navigation"
+      [attr.aria-expanded]="menuOpen"
+      (click)="toggleMenu()">
+      <i
+        class="fas"
+        [ngClass]="menuOpen ? 'fa-xmark' : 'fa-bars'">
+      </i>
+    </button>
+   
+  </nav>
+
+  <!-- Navigation mobile -->
+  <div
+    id="mobile-navigation"
+    class="mobile-menu"
+    [class.show]="menuOpen">
+
+    <a href="/" (click)="closeMenu()">
+      <i class="fas fa-house"></i> Accueil
+    </a>
+
+    <a href="#offres" (click)="closeMenu()">
+      <i class="fas fa-briefcase"></i> Offres d'emploi
+    </a>
+
+    <a href="#apropos" (click)="closeMenu()">
+      <i class="fas fa-circle-info"></i> À propos
+    </a>
+
+    <a href="#contact" (click)="closeMenu()">
+      <i class="fas fa-envelope"></i> Contact
+    </a>
+
+    <div class="mobile-actions">
+      <button type="button" class="btn-login"
+        (click)="openLoginModal(); closeMenu()">
+        <i class="fas fa-right-to-bracket"></i>
+        Se connecter
+      </button>
+
+      <button type="button" class="btn-signup"
+        (click)="openSignupModal(); closeMenu()">
+        <i class="fas fa-user-plus"></i>
+        S'inscrire
+      </button>
+      
+    </div>
+
+  </div>
+</header>

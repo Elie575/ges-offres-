@@ -1,0 +1,144 @@
+<div class="container">
+  <!-- Navbar -->
+  <nav class="navbar">
+      <h1 class="logo"><span></span></h1>
+      <div class="nav-links">
+          <div class="profile-picture">
+              <img [src]="utilisateur?.photo" alt="Profile" *ngIf="utilisateur?.photo" />
+          </div>
+         <a href="#crud_ajout" class="icon"><i class="fas fa-bell" ></i></a>
+          <a routerLink="/RecruDisc" class="icon"><i class="fas fa-envelope"></i></a>
+          <div class="search"><i class="fas fa-search"></i>
+              <app-search-app></app-search-app>
+          </div>
+      </div>
+  </nav>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+      <h2>Stock resto</h2>
+      <ul class="sidebar-list">
+          <li (click)="showComponent('offre_recent')"><i class="fas fa-gift"></i> <span>ACCUEIL</span></li>
+          <li (click)="showComponent('crud_ajout')">
+            <i class="fas fa-plus-circle"></i> <span>partager offre</span>
+          </li>
+          <li (click)="showComponent('')">  <i class="fa fa-chart-bar"></i> <span>Statistiques</span>
+          <li (click)="showComponent('')"><i class="fa fa-user"></i> <span>Paramètre</span>
+          </li>
+      </ul>
+      <button class="logout-btn" (click)="logout()"> <a routerLink="/Premier" routerLinkActive="active" aria-current="page"><i class="fas fa-sign-out-alt" style="color: aliceblue;" >Deconnexion</i> </a></button>
+  </aside>
+  <!-- Main Content -->
+  <main class="main-content">
+      <section *ngIf="currentComponent === 'offre_recent'">
+          <h2 class="section__header"><span>Ici le domaine</span> pour suivie le meuilleur candidat</h2>
+          <div class="job__grid" *ngFor="let offre of offres">
+              <div class="job__card">
+                  <div class="job__card__header">
+                      
+                    <h5>Titre</h5> {{offre?.titre}}
+                      <h5>Description</h5>{{offre?.description}}
+                      <h5>Localisation</h5>{{offre?.localisation}}
+                      <h6>Type de contrat</h6>{{offre?.type_contrat}}
+                      <h5>Plage salaire</h5>{{offre?.plage_salaire}}
+                      <h6>Exigences</h6>{{offre?.exigences}}
+                      <h5>Date de création</h5>{{offre?.cree_le}}
+                      <h6>Date limite</h6>{{offre?.date_limite}}
+                      <h6>Status</h6>{{offre?.status}}
+                  </div>
+              </div>
+          </div>
+      </section>
+    </main>
+
+    <main class="main-content">
+      <section *ngIf="currentComponent === 'crud_ajout'">
+       <h2 class="section__header"><span>Profitez</span>  pour trouver un bon candidat</h2>
+      <div class="form-container">
+        <h2>Ajouter une emploi</h2>
+        <form (ngSubmit)="ajouterOffre()" class="form-offre">
+          <!-- Titre -->
+           <div style="display: flex;">
+          <div class="form-group">
+            <label for="titre">Titre</label>
+            <input type="text" id="titre" [(ngModel)]="nouvelleOffre.titre" name="titre" required>
+          </div>
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <!-- Description -->
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" [(ngModel)]="nouvelleOffre.description" name="description" required></textarea>
+          </div></div>
+      
+          <!-- Localisation -->
+          <div style="display: flex;">
+          <div class="form-group">
+            <label for="localisation">Localisation</label>
+            <input type="text" id="localisation" [(ngModel)]="nouvelleOffre.localisation" name="localisation" required>
+          </div>
+      
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <!-- Plage salariale -->
+          <div class="form-group">
+            <label for="plage_salaire">Plage salariale</label>
+            <input type="text" id="plage_salaire" [(ngModel)]="nouvelleOffre.plage_salaire" name="plage_salaire" required>
+          </div></div>
+      
+          <!-- Type de contrat -->
+           
+          <div style="display: flex;">
+          <div class="form-group" style="width: 20%; height: 20px;">
+            <label for="type_contrat">Type de contrat</label>
+            <select id="type_contrat" [(ngModel)]="nouvelleOffre.type_contrat" name="type_contrat" required>
+              <option value="CDI">CDI</option>
+              <option value="CDD">CDD</option>
+            </select>
+          </div>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      
+           <!-- Exigences -->
+           <div class="form-group">
+            <label for="exigences">Exigences</label>
+            <textarea id="exigences" [(ngModel)]="nouvelleOffre.exigences" name="exigences" required></textarea>
+          </div>
+      </div>
+          <!-- Date limite -->
+           
+          <div style="display: flex;">
+          <div class="form-group">
+            <label for="date_limite">Date limite de soumission</label>
+            <input type="date" id="date_limite" [(ngModel)]="nouvelleOffre.date_limite" name="date_limite" required>
+          </div>
+        </div>
+      
+          <!-- Bouton de soumission -->
+          <button type="submit" class="btn-submit">Ajouter l'offre</button>
+        </form>
+      </div>
+    </section>
+    </main>
+
+      
+  <!-- Footer -->
+  <footer class="footer">
+      <div class="footer-container">
+          <div class="footer-col">
+              <h1 class="logo">Job<span>Gratuit</span></h1>
+              <p>Notre plateforme de gestion des offres d'emploi.</p>
+          </div>
+          <div class="footer-col">
+              <h4>Suivez-Nous</h4>
+              <ul>
+                  <li><a href="#">Facebook</a></li>
+                  <li><a href="#">Instagram</a></li>
+                  <li><a href="#">WhatsApp</a></li>
+              </ul>
+          </div>
+          <div class="footer-col">
+              <h4>Contactez-Nous</h4>
+              <p><i class="ri-phone-fill"></i> +261 333189097</p>
+              <p><i class="ri-map-pin-2-fill"></i> Bp:301 FIANARANTSOA</p>
+          </div>
+      </div>
+      <div class="footer-bar">Projection Web Design Mr Elie.</div>
+  </footer>
+</div>

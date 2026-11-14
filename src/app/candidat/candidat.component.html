@@ -1,0 +1,567 @@
+
+<div class="app-container">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a class="brand" href="#" (click)="$event.preventDefault(); toggleComponent('offres')">
+      <span class="brand-icon"><i class="fas fa-briefcase"></i></span>
+      <span>H-</span><span class="brand-highlight">KANDRA</span>
+    </a>
+
+<div class="profile-wrapper">
+  <!-- CARTE CLIQUABLE -->
+  <button
+    type="button"
+    class="profile-card"
+    (click)="toggleProfileMenu()"
+    [attr.aria-expanded]="profileMenuOpen"
+    aria-haspopup="menu"
+    aria-controls="profile-dropdown"
+  >
+
+    <div class="profile-avatar">
+      <img
+        *ngIf="utilisateur?.photo; else avatarDefault"
+        [src]="utilisateur?.photo"
+        [alt]="'Photo de ' + (utilisateur?.nom || 'Utilisateur')"
+        class="profile-img"
+      >
+
+      <ng-template #avatarDefault>
+        <i class="fas fa-user-circle default-avatar"></i>
+      </ng-template>
+
+      <span class="online-indicator"></span>
+    </div>
+
+    <div class="profile-info">
+      <span class="profile-label">Mon compte</span>
+
+      <strong class="profile-name">
+        {{ utilisateur?.nom || 'Utilisateur inconnu' }}
+      </strong>
+
+      <span class="profile-role">
+        {{ utilisateur?.role || 'Utilisateur' }}
+      </span>
+    </div>
+
+    <i
+      class="fas fa-chevron-down profile-chevron"
+      [class.rotated]="profileMenuOpen">
+    </i>
+
+  </button>
+
+  <!-- DROPDOWN -->
+  <div
+    id="profile-dropdown"
+    class="profile-dropdown"
+    *ngIf="profileMenuOpen"
+    role="menu"
+  >
+
+    <!-- MON PROFIL -->
+    <button
+      type="button"
+      class="dropdown-item"
+      role="menuitem"
+      (click)="ouvrirProfil()"
+    >
+      <span class="item-icon">
+        <i class="fas fa-user"></i>
+      </span>
+
+      <span>Mon profil</span>
+
+      <i class="fas fa-chevron-right item-arrow"></i>
+    </button>
+
+    <!-- PARAMÈTRES -->
+    
+
+    <div class="dropdown-divider"></div>
+
+    <!-- DÉCONNEXION -->
+    <button
+      type="button"
+      class="dropdown-item logout-item"
+      role="menuitem"
+      (click)="deconnecter()"
+    >
+      <span class="item-icon">
+        <i class="fas fa-sign-out-alt"></i>
+      </span>
+
+      <span>Déconnexion</span>
+    </button>
+
+  </div>
+
+</div>
+</nav>
+
+  <!-- ================= OFFRES ================= -->
+  <main class="page-content" *ngIf="currentComponent === 'offres'">
+
+    <section class="hero">
+      <div class="hero-content">
+        <span class="eyebrow">
+          <i class="fas fa-star"></i> VOTRE CARRIÈRE COMMENCE ICI
+        </span>
+
+        <h1>
+          Trouvez le travail<br>
+          qui vous <span>correspond.</span>
+        </h1>
+
+        <p>
+          Découvrez les nouvelles opportunités professionnelles
+          et donnez un nouvel élan à votre carrière avec H-kandra.
+        </p>
+
+        <div class="hero-stats">
+          <div>
+            <strong>{{ offres?.length || 0 }}</strong>
+            <span>Offres disponibles</span>
+          </div>
+          <div>
+            <strong>Votre</strong>
+            <span>Prochaine opportunité</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-illustration">
+        <div class="illustration-circle">
+          <i class="fas fa-user-tie"></i>
+        </div>
+        <div class="floating-card floating-card-one">
+          <i class="fas fa-check-circle"></i> Carrière
+        </div>
+        <div class="floating-card floating-card-two">
+          <i class="fas fa-briefcase"></i> Nouveaux emplois
+        </div>
+      </div>
+    </section>
+
+    <!-- TITRE ET COMPTEUR -->
+    <section class="offers-section">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">OPPORTUNITÉS PROFESSIONNELLES</span>
+          <h2>Offres d'emploi</h2>
+          <p>Les offres les plus récentes apparaissent en premier.</p>
+        </div>
+
+        <div class="result-count">
+          <i class="fas fa-briefcase"></i>
+          {{ offres?.length || 0 }} résultats
+        </div>
+      </div>
+
+      <!-- RECHERCHE -->
+      <div class="offer-search">
+        <i class="fas fa-search"></i>
+        <app-search-app></app-search-app>
+      </div>
+
+      <!-- LISTE DES OFFRES -->
+      <div class="job-list" *ngIf="offres?.length; else aucuneOffre">
+
+        <article class="job-card" *ngFor="let offre of offres">
+
+          <div class="job-card-header">
+            <div class="company-logo">
+              <img
+                *ngIf="offre.publie?.photo as photoUrl; else logoDefault"
+                [src]="photoUrl"
+                alt="Logo de l'entreprise">
+
+              <ng-template #logoDefault>
+                <i class="fas fa-building"></i>
+              </ng-template>
+            </div>
+
+            <div class="company-info">
+              <h3>
+                {{ offre.publie?.photo }}
+              </h3>
+              <span class="company-caption">
+                <i class="fas fa-check-circle"></i>
+                Offre professionnelle
+              </span>
+            </div>
+
+            <span class="contract-badge">
+              {{ offre.type_contrat || 'Contrat non précisé' }}
+            </span>
+          </div>
+
+          <div class="job-card-content">
+            <h3 class="job-title">{{ offre.titre }}</h3>
+
+            <p class="job-description">{{ offre.description }}</p>
+
+            <div class="job-information">
+              <div class="information-item">
+                <span class="information-icon">
+                  <i class="fas fa-map-marker-alt"></i>
+                </span>
+                <div>
+                  <small>Localisation</small>
+                  <strong>{{ offre.localisation || 'Non précisée' }}</strong>
+                </div>
+              </div>
+
+              <div class="information-item">
+                <span class="information-icon">
+                  <i class="fas fa-money-bill-wave"></i>
+                </span>
+                <div>
+                  <small>Salaire</small>
+                  <strong>{{ offre.plage_salaire || 'Non précisé' }}</strong>
+                </div>
+              </div>
+
+              <div class="information-item">
+                <span class="information-icon">
+                  <i class="fas fa-calendar-alt"></i>
+                </span>
+                <div>
+                  <small>Date limite</small>
+                  <strong>
+                    {{ offre.date_limite
+                      ? (offre.date_limite | date:'dd/MM/yyyy')
+                      : 'Non précisée' }}
+                  </strong>
+                </div>
+              </div>
+
+              <div class="information-item" *ngIf="">
+                <span class="information-icon">
+                  <i class="fas fa-clock"></i>
+                </span>
+                <div>
+                  <small>Publication</small>
+                  <strong>
+                    {{ offre.id | date:'dd/MM/yyyy' }}
+                  </strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="requirements" *ngIf="offre.exigences">
+              <h4>
+                <i class="fas fa-clipboard-check"></i>
+                Profil recherché
+              </h4>
+              <p>{{ offre.exigences }}</p>
+            </div>
+          </div>
+
+          <div class="job-card-footer">
+            <span class="apply-note">
+              <i class="fas fa-paper-plane"></i>
+              Cette offre vous intéresse ?
+            </span>
+
+            <button
+              type="button"
+              class="apply-button"
+              (click)="postuler(offre)">
+              Postuler maintenant
+              <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+
+        </article>
+      </div>
+
+      <!-- AUCUNE OFFRE -->
+      <ng-template #aucuneOffre>
+        <div class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-briefcase"></i>
+          </div>
+          <h3>Aucune offre disponible</h3>
+          <p>
+            Les nouvelles opportunités seront affichées ici
+            dès leur publication.
+          </p>
+        </div>
+      </ng-template>
+
+      <!-- SÉLECTION DU CV -->
+      <input
+        type="file"
+        #fileInput
+        accept=".pdf,application/pdf"
+        hidden
+        (change)="gererFichierSelectionne($event)">
+    </section>
+  </main>
+
+  <!-- ================= CRÉATION DU CV ================= -->
+  <main class="page-content" *ngIf="currentComponent === 'CV'">
+    <section class="editor-panel">
+      <div class="editor-heading">
+        <span class="section-kicker">VOTRE CANDIDATURE</span>
+        <h1>Créer mon CV</h1>
+        <p>Présentez votre parcours et vos compétences aux recruteurs.</p>
+      </div>
+
+      <form
+        class="cv-form"
+        [formGroup]="cvForm"
+        (ngSubmit)="onSubmit()">
+
+        <div class="form-section">
+          <h3><i class="fas fa-user-tie"></i> Profil professionnel</h3>
+          <label for="profil">Présentation</label>
+          <textarea
+            id="profil"
+            formControlName="profil"
+            rows="5"
+            placeholder="Présentez votre expérience, vos objectifs et vos compétences...">
+          </textarea>
+        </div>
+
+        <div class="form-section">
+          <h3><i class="fas fa-briefcase"></i> Expériences professionnelles</h3>
+
+          <div formArrayName="experiences">
+            <div
+              class="array-item"
+              *ngFor="let experience of experiences.controls; let i = index"
+              [formGroupName]="i">
+
+              <h4>Expérience {{ i + 1 }}</h4>
+
+              <label>Entreprise</label>
+              <input type="text" formControlName="entreprise">
+
+              <label>Poste occupé</label>
+              <input type="text" formControlName="poste">
+
+              <label>Dates</label>
+              <input type="text" formControlName="dates">
+
+              <label>Description</label>
+              <textarea rows="3" formControlName="description"></textarea>
+
+              <button type="button" class="remove-button"
+                (click)="removeExperience(i)">
+                <i class="fas fa-trash"></i> Supprimer
+              </button>
+            </div>
+          </div>
+
+          <button type="button" class="secondary-button" (click)="addExperience()">
+            <i class="fas fa-plus"></i> Ajouter une expérience
+          </button>
+        </div>
+
+        <div class="form-section">
+          <h3><i class="fas fa-graduation-cap"></i> Formation et diplômes</h3>
+
+          <div formArrayName="formations">
+            <div
+              class="array-item"
+              *ngFor="let formation of formations.controls; let i = index"
+              [formGroupName]="i">
+
+              <h4>Formation {{ i + 1 }}</h4>
+
+              <label>Établissement</label>
+              <input type="text" formControlName="etablissement">
+
+              <label>Diplôme</label>
+              <input type="text" formControlName="diplome">
+
+              <label>Dates</label>
+              <input type="text" formControlName="dates">
+
+              <button type="button" class="remove-button"
+                (click)="removeFormation(i)">
+                <i class="fas fa-trash"></i> Supprimer
+              </button>
+            </div>
+          </div>
+
+          <button type="button" class="secondary-button" (click)="addFormation()">
+            <i class="fas fa-plus"></i> Ajouter une formation
+          </button>
+        </div>
+
+        <div class="form-section">
+          <h3><i class="fas fa-tools"></i> Compétences</h3>
+
+          <div formArrayName="competences">
+            <div
+              class="array-item compact-item"
+              *ngFor="let competence of competences.controls; let i = index">
+              <label [for]="'competence-' + i">Compétence {{ i + 1 }}</label>
+              <input [id]="'competence-' + i" type="text" [formControlName]="i">
+
+              <button type="button" class="remove-button"
+                (click)="removeCompetence(i)">
+                Supprimer
+              </button>
+            </div>
+          </div>
+
+          <button type="button" class="secondary-button" (click)="addCompetence()">
+            <i class="fas fa-plus"></i> Ajouter une compétence
+          </button>
+        </div>
+
+        <div class="form-section">
+          <h3><i class="fas fa-language"></i> Langues</h3>
+
+          <div formArrayName="langues">
+            <div
+              class="array-item"
+              *ngFor="let langue of langues.controls; let i = index"
+              [formGroupName]="i">
+
+              <label>Langue</label>
+              <input type="text" formControlName="langue">
+
+              <label>Niveau</label>
+              <input type="text" formControlName="niveau">
+
+              <button type="button" class="remove-button"
+                (click)="removeLangue(i)">
+                Supprimer
+              </button>
+            </div>
+          </div>
+
+          <button type="button" class="secondary-button" (click)="addLangue()">
+            <i class="fas fa-plus"></i> Ajouter une langue
+          </button>
+        </div>
+
+        <div class="form-section">
+          <h3><i class="fas fa-certificate"></i> Certifications</h3>
+
+          <div formArrayName="certifications">
+            <div
+              class="array-item compact-item"
+              *ngFor="let certification of certifications.controls; let i = index">
+              <label [for]="'certification-' + i">
+                Certification {{ i + 1 }}
+              </label>
+              <input
+                [id]="'certification-' + i"
+                type="text"
+                [formControlName]="i">
+
+              <button type="button" class="remove-button"
+                (click)="removeCertification(i)">
+                Supprimer
+              </button>
+            </div>
+          </div>
+
+          <button type="button" class="secondary-button"
+            (click)="addCertification()">
+            <i class="fas fa-plus"></i> Ajouter une certification
+          </button>
+        </div>
+
+        <button type="submit" class="primary-button">
+          <i class="fas fa-save"></i> Enregistrer mon CV
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <!-- ================= PROFIL ================= -->
+  <main class="page-content" *ngIf="currentComponent === 'Profil'">
+    <section class="editor-panel profile-editor">
+      <div class="editor-heading">
+        <span class="section-kicker">ESPACE CANDIDAT</span>
+        <h1>Mon profil</h1>
+        <p>Consultez et mettez à jour vos informations personnelles.</p>
+      </div>
+
+      <div class="profile-summary">
+        <div class="large-avatar">
+          <img
+            [src]="utilisateur?.photo || user.photoUrl || 'assets/default-profile.png'"
+            alt="Photo du profil">
+        </div>
+        <h2>{{ utilisateur?.nom || 'Utilisateur inconnu' }}</h2>
+        <p>H-KANDRA</p>
+      </div>
+
+      <form class="cv-form" (ngSubmit)="saveProfile()">
+        <div class="form-section">
+          <label for="name">Nom complet</label>
+          <input
+            id="name"
+            type="text"
+            name="name"
+            placeholder="Entrez votre nom">
+        </div>
+
+        <div class="form-section">
+          <label for="email">Adresse e-mail</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="Entrez votre adresse e-mail">
+        </div>
+
+        <div class="form-section">
+          <label for="code">Code</label>
+          <input
+            id="code"
+            type="text"
+            name="code"
+            placeholder="Entrez votre code">
+        </div>
+
+        <button type="submit" class="primary-button">
+          <i class="fas fa-save"></i> Enregistrer le profil
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a class="brand footer-logo" href="#"
+          (click)="$event.preventDefault(); toggleComponent('offres')">
+          <span class="brand-icon"><i class="fas fa-briefcase"></i></span>
+          <span>H-<span class="brand-highlight">KANDRA</span></span>
+        </a>
+        <p>Votre prochaine opportunité professionnelle commence ici.</p>
+      </div>
+
+      <div class="footer-column">
+        <h4>Navigation</h4>
+        <button type="button" (click)="toggleComponent('offres')">Accueil</button>
+        <button type="button" (click)="toggleComponent('CV')">Créer mon CV</button>
+        <button type="button" (click)="toggleComponent('Profil')">Mon profil</button>
+      </div>
+
+      <div class="footer-column">
+        <h4>Contact</h4>
+        <p><i class="fas fa-phone"></i> +261 34 83 738 54</p>
+        <p><i class="fas fa-map-marker-alt"></i> Fianarantsoa, Madagascar</p>
+        <a routerLink="/CandidatDisc">Messagerie</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © H-KANDRA · Tous droits réservés.
+    </div>
+  </footer>
+
+</div>

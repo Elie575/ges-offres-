@@ -1,0 +1,19 @@
+<main class="main-content" *ngIf="currentComponent === 'modalCv'">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel">Postuler à l'offre</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+        <div class="modal-body">
+          <p>Sélectionnez un fichier PDF à envoyer :</p>
+          <input type="file" accept="application/pdf" (change)="selectionnerFichier($event)" class="form-control">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-success" (click)="envoyerFichier()">📤 Envoyer</button>
+        </div>
+      </div>
+    </div>
+</main>
+  

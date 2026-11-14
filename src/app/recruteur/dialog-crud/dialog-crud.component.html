@@ -1,0 +1,52 @@
+<div class="form-container">
+  <h2>Ajouter une offre d'emploi</h2>
+  <form (ngSubmit)="ajouterOffre()" class="form-offre">
+    <!-- Titre -->
+    <div class="form-group">
+      <label for="titre">Titre</label>
+      <input type="text" id="titre" [(ngModel)]="nouvelleOffre.titre" name="titre" required>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" [(ngModel)]="nouvelleOffre.description" name="description" required></textarea>
+    </div>
+
+    <!-- Localisation -->
+    <div class="form-group">
+      <label for="localisation">Localisation</label>
+      <input type="text" id="localisation" [(ngModel)]="nouvelleOffre.localisation" name="localisation" required>
+    </div>
+
+    <!-- Plage salariale -->
+    <div class="form-group">
+      <label for="plage_salaire">Plage salariale</label>
+      <input type="text" id="plage_salaire" [(ngModel)]="nouvelleOffre.plage_salaire" name="plage_salaire" required>
+    </div>
+
+    <!-- Type de contrat -->
+    <div class="form-group">
+      <label for="type_contrat">Type de contrat</label>
+      <select id="type_contrat" [(ngModel)]="nouvelleOffre.type_contrat" name="type_contrat" required>
+        <option value="CDI">CDI</option>
+        <option value="CDD">CDD</option>
+      </select>
+    </div>
+
+     <!-- Exigences -->
+     <div class="form-group">
+      <label for="exigences">Exigences</label>
+      <textarea id="exigences" [(ngModel)]="nouvelleOffre.exigences" name="exigences" required></textarea>
+    </div>
+
+    <!-- Date limite -->
+    <div class="form-group">
+      <label for="date_limite">Date limite de soumission</label>
+      <input type="date" id="date_limite" [(ngModel)]="nouvelleOffre.date_limite" name="date_limite" required>
+    </div>
+
+    <!-- Bouton de soumission -->
+    <button type="submit" class="btn-submit">Ajouter l'offre</button>
+  </form>
+</div>
